@@ -1,0 +1,16 @@
+{
+  "name": "absoluteminority",
+  "version": "1.0.0",
+  "description": "A mobile-first party game where players vote on dares and race to five points.",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "test": "node tests/run-tests.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs"
+}
