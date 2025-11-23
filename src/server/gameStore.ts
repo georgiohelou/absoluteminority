@@ -1,4 +1,4 @@
-import { createGame, joinGame as joinGameCore, startGame as startGameCore, resolveRound, GameStatus } from '../gameLogic';
+import { createGame, joinGame as joinGameCore, startGame as startGameCore, resolveRound, GameStatus, GameState as CoreGameState } from '../gameLogic';
 import { Challenge, GameRoom, GameState, Player, RoundOutcome, VoteChoice } from './types';
 import { pickChallenge } from './challenges';
 
@@ -13,8 +13,8 @@ function generateCode(): string {
   return code;
 }
 
-function mapStateWithCode(state: any, code: string): GameState {
-  return { ...state, code };
+function mapStateWithCode(state: CoreGameState, code: string): GameState {
+  return { ...(state as GameState), code };
 }
 
 export class GameStore {

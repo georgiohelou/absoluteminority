@@ -10,15 +10,7 @@ export interface Player {
 }
 
 export interface RoundOutcome {
-  rule:
-    | 'MAJORITY_YES'
-    | 'MAJORITY_NO'
-    | 'ALL_NO'
-    | 'ALL_YES'
-    | 'SINGLE_NO'
-    | 'SINGLE_YES'
-    | 'TIE_YES_PICKED'
-    | 'TIE_NO_PICKED';
+  rule: string;
   performers: string[];
   scoreChanges: Record<string, number>;
   resetScores: boolean;
