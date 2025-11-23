@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "ES2019",
+    "target": "ES2022",
     "module": "commonjs",
     "moduleResolution": "node",
     "outDir": "dist/server",
@@ -8,7 +8,9 @@
     "strict": true,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "lib": ["ES2022", "DOM"],
+    "allowJs": true
   },
   "include": ["src/server/**/*"]
 }

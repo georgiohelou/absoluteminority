@@ -12,11 +12,11 @@ const corsOrigin = process.env.CORS_ORIGIN?.split(',').map((o) => o.trim()) || '
 app.use(cors({ origin: corsOrigin }));
 app.use(express.json());
 
-app.get('/health', (_req, res) => {
+app.get('/health', (_req: any, res: any) => {
   res.json({ ok: true });
 });
 
-app.get('/challenges', (_req, res) => {
+app.get('/challenges', (_req: any, res: any) => {
   res.json({ challenges });
 });
 
@@ -44,8 +44,8 @@ function toClientRoomPayload(room: GameRoom, playerId?: string) {
   };
 }
 
-io.on('connection', (socket) => {
-  socket.on('create_game', ({ nickname }) => {
+io.on('connection', (socket: any) => {
+  socket.on('create_game', ({ nickname }: { nickname: string }) => {
     try {
       const room = store.createGame(nickname);
       socket.join(room.state.code);
@@ -55,7 +55,7 @@ io.on('connection', (socket) => {
     }
   });
 
-  socket.on('join_game', ({ code, nickname }) => {
+  socket.on('join_game', ({ code, nickname }: { code: string; nickname: string }) => {
     try {
       const room = store.joinGame(code, nickname);
       socket.join(room.state.code);
@@ -68,7 +68,7 @@ io.on('connection', (socket) => {
     }
   });
 
-  socket.on('start_game', ({ code }) => {
+  socket.on('start_game', ({ code }: { code: string }) => {
     try {
       const room = store.startGame(code);
       io.to(room.state.code).emit('game_state', toClientRoomPayload(room));
@@ -77,7 +77,7 @@ io.on('connection', (socket) => {
     }
   });
 
-  socket.on('start_round', ({ code, challengeId }) => {
+  socket.on('start_round', ({ code, challengeId }: { code: string; challengeId?: string }) => {
     try {
       const challenge = challenges.find((c) => c.id === challengeId);
       const room = store.startRound(code, challenge);
@@ -92,7 +92,7 @@ io.on('connection', (socket) => {
     }
   });
 
-  socket.on('submit_vote', ({ code, playerId, choice }) => {
+  socket.on('submit_vote', ({ code, playerId, choice }: { code: string; playerId: string; choice: 'YES' | 'NO' }) => {
     try {
       const room = store.submitVote(code, playerId, choice);
       io.to(room.state.code).emit('vote_update', { votes: room.roundContext?.votes });
@@ -101,7 +101,7 @@ io.on('connection', (socket) => {
     }
   });
 
-  socket.on('round_confirm_challenge_result', ({ code, performances }) => {
+  socket.on('round_confirm_challenge_result', ({ code, performances }: { code: string; performances: Record<string, boolean> }) => {
     try {
       const room = store.applyPerformanceResults(code, performances);
       io.to(room.state.code).emit('game_state', toClientRoomPayload(room));
@@ -113,7 +113,7 @@ io.on('connection', (socket) => {
     }
   });
 
-  socket.on('rejoin_game', ({ code }) => {
+  socket.on('rejoin_game', ({ code }: { code: string }) => {
     try {
       const room = store.getRoom(code);
       if (!room) throw new Error('Game not found');
